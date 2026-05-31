@@ -1,0 +1,28 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState } from 'react';
+export default function Home({ onCreateRoom, onJoinRoom, error, connected }) {
+    const [name, setName] = useState('');
+    const [code, setCode] = useState('');
+    const [tab, setTab] = useState('join');
+    const [settings, setSettings] = useState({
+        maxPlayers: 8, rounds: 3, drawTime: 80, wordCount: 3, hintCount: 2,
+    });
+    const handleJoin = () => {
+        if (!name.trim())
+            return alert('Enter your name!');
+        if (!code.trim())
+            return alert('Enter a room code!');
+        onJoinRoom(name.trim(), code.trim().toUpperCase());
+    };
+    const handleCreate = () => {
+        if (!name.trim())
+            return alert('Enter your name!');
+        onCreateRoom(name.trim(), settings, false);
+    };
+    return (_jsxs("div", { style: { minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px', gap: '24px' }, children: [_jsxs("div", { style: { textAlign: 'center' }, children: [_jsx("h1", { style: { fontFamily: 'Fredoka One', fontSize: '56px', background: 'linear-gradient(135deg, #818cf8, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }, children: "\uD83C\uDFA8 skribbl" }), _jsx("p", { style: { color: '#a5b4fc', fontSize: '18px', marginTop: '4px' }, children: "Draw. Guess. Win!" }), _jsxs("div", { style: { display: 'flex', alignItems: 'center', gap: '6px', marginTop: '8px', justifyContent: 'center' }, children: [_jsx("div", { style: { width: 8, height: 8, borderRadius: '50%', background: connected ? '#22c55e' : '#ef4444' } }), _jsx("span", { style: { fontSize: '13px', color: connected ? '#22c55e' : '#ef4444' }, children: connected ? 'Connected' : 'Connecting...' })] })] }), _jsxs("div", { style: { background: '#1a1a2e', borderRadius: '20px', padding: '32px', width: '100%', maxWidth: '460px', border: '1px solid #2d2d4e' }, children: [_jsxs("div", { style: { marginBottom: '16px' }, children: [_jsx("label", { style: { display: 'block', marginBottom: '6px', color: '#a5b4fc', fontSize: '13px', fontWeight: 700, textTransform: 'uppercase' }, children: "Your Name" }), _jsx("input", { style: { width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #2d2d4e', background: '#0f0f1a', color: '#fff', fontSize: '16px', outline: 'none' }, placeholder: "Enter your name...", value: name, onChange: e => setName(e.target.value), maxLength: 20 })] }), _jsx("div", { style: { display: 'flex', gap: '8px', marginBottom: '20px' }, children: ['join', 'create'].map(t => (_jsx("button", { onClick: () => setTab(t), style: { flex: 1, padding: '10px', borderRadius: '10px', border: 'none', background: tab === t ? '#4f46e5' : '#2d2d4e', color: tab === t ? '#fff' : '#a5b4fc', cursor: 'pointer', fontSize: '14px', fontWeight: 700 }, children: t === 'join' ? '🚪 Join Room' : '➕ Create Room' }, t))) }), tab === 'join' ? (_jsxs("div", { children: [_jsx("input", { style: { width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #2d2d4e', background: '#0f0f1a', color: '#fff', fontSize: '20px', outline: 'none', textTransform: 'uppercase', letterSpacing: '4px', textAlign: 'center', marginBottom: '16px' }, placeholder: "ABC123", value: code, onChange: e => setCode(e.target.value.toUpperCase()), maxLength: 6, onKeyDown: e => e.key === 'Enter' && handleJoin() }), _jsx("button", { onClick: handleJoin, style: { width: '100%', padding: '14px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', color: '#fff', fontSize: '18px', cursor: 'pointer', fontWeight: 800 }, children: "Join Game" })] })) : (_jsxs("div", { children: [_jsx("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }, children: [
+                                    { label: 'Max Players', key: 'maxPlayers', min: 2, max: 20 },
+                                    { label: 'Rounds', key: 'rounds', min: 1, max: 10 },
+                                    { label: 'Draw Time (s)', key: 'drawTime', min: 15, max: 240 },
+                                    { label: 'Word Choices', key: 'wordCount', min: 1, max: 5 },
+                                ].map(({ label, key, min, max }) => (_jsxs("div", { children: [_jsx("label", { style: { fontSize: '12px', color: '#a5b4fc', fontWeight: 700 }, children: label }), _jsxs("div", { style: { display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }, children: [_jsx("button", { onClick: () => setSettings(s => ({ ...s, [key]: Math.max(min, s[key] - 1) })), style: { width: 28, height: 28, borderRadius: '6px', border: 'none', background: '#2d2d4e', color: '#fff', cursor: 'pointer', fontSize: '16px' }, children: "\u2212" }), _jsx("span", { style: { minWidth: '32px', textAlign: 'center', fontWeight: 800 }, children: settings[key] }), _jsx("button", { onClick: () => setSettings(s => ({ ...s, [key]: Math.min(max, s[key] + 1) })), style: { width: 28, height: 28, borderRadius: '6px', border: 'none', background: '#2d2d4e', color: '#fff', cursor: 'pointer', fontSize: '16px' }, children: "+" })] })] }, key))) }), _jsx("button", { onClick: handleCreate, style: { width: '100%', padding: '14px', borderRadius: '12px', border: 'none', background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', color: '#fff', fontSize: '18px', cursor: 'pointer', fontWeight: 800 }, children: "Create Room" })] })), error && _jsxs("div", { style: { marginTop: '16px', padding: '12px', borderRadius: '10px', background: '#450a0a', color: '#fca5a5', textAlign: 'center', fontWeight: 700 }, children: ["\u26A0\uFE0F ", error] })] })] }));
+}
