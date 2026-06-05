@@ -1,0 +1,8 @@
+{
+  "name": "skribbi-clone",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node backend/dist/index.js",
+    "build": "cd frontend && npm install --legacy-peer-deps && npm run build && cd ../backend && npm install && npx tsc"
+  }
+}
